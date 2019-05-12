@@ -13,12 +13,18 @@
   "license": "ISC",
   "dependencies": {
     "co": "^4.6.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "koa": "^2.7.0",
     "koa-convert": "1.2.0",
     "koa-logger": "^3.2.0",
     "koa-session": "^5.10.1",
-    "node-fetch": "^2.3.0"
+    "koa-views": "^6.2.0",
+    "node-fetch": "^2.3.0",
+    "pug": "^2.0.3",
+    "puppeteer": "^1.15.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

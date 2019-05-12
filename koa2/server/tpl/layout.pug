@@ -1,0 +1,26 @@
+
+
+
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        block title
+        include ./style.pug
+        body
+        block content
+        //- 在jade里面直接写js -表示是一段代码 直接写=表示输出变量
+        -var a=10
+        -var b=5
+        div 结果是 #{a+b}
+        div=a
+        //- jade自动转义<> 防止注入 前面加个!就可以不自动转义
+        div!=content
+        //- 循环输出变量
+        -for(var i=0;i<arr.length;i++)
+            div=arr[i]
+        -if(a%2==0)
+            div(style={background:'red'}) 我是偶数
+        -else
+            div(style={background:'blue'}) 我是奇数
