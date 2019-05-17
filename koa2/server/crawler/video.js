@@ -7,7 +7,8 @@ const puppeteer =require('puppeteer')
     const browser=await puppeteer.launch({
         args:['--no-sandbox'],
         dumpio:false,
-        executablePath:'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        // executablePath:'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        executablePath:'C:\\Users\\dell\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe',
         headless:false
     })
     const page=await browser.newPage();

@@ -2,7 +2,10 @@ const puppeteer = require("puppeteer");
 const fs=require('fs')
 
 // const ticket=`5FF15E118-892B-DE65-18D3-3D568538B5E0`
-const ticket=`2F0A4546D-DF92-3A98-5FDA-AC73DBA440C6`
+// const ticket=`2F0A4546D-DF92-3A98-5FDA-AC73DBA440C6`
+const ticket=`934E22B2E-EE6F-BF5E-20A6-6736765AA9FB`
+
+
 // const main_url=`http://mtest.ilaisa.com`
 const main_url=`http://m.ilaisa.com`
 // const blog_detail_url=`http://mtest.ilaisa.com/#/blogDetail/`
@@ -14,8 +17,10 @@ const request_url=`${main_url}?ticket=${crytoTicket}`
 ;(async ()=>{
     const browser = await puppeteer.launch({
         headless:false,
-        devtools:true,
-		executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+		devtools:true,
+        executablePath:'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+		
+		// executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
     });
     const page = await browser.newPage();
     // await page.setRequestInterception(true)
@@ -43,7 +48,7 @@ const request_url=`${main_url}?ticket=${crytoTicket}`
 					let res_data = result.data;
 					if(request.postData().includes('laishang_index')){
 						res_data.blog_data.forEach(item=>{
-							if(item.is_receive==0){
+							if(item.is_receive==0&&item.is_vote==0){
 								blog_data.push({
 									blog_id:item.blog_id,
 									read_time:Number(item.read_time)
