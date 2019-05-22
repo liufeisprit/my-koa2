@@ -4,6 +4,10 @@ import html from './tpl/html'
 import ejs from 'ejs'
 import koaViews from 'koa-views'
 import path from 'path'
+import {connect} from './database/index'
+;(async ()=>{
+    await connect()
+})()
 app.use(koaViews(path.join(__dirname, './tpl'), {
     extension: 'pug'
   }));

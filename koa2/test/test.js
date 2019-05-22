@@ -14,7 +14,18 @@
 const {readFile,readFileSync} = require('fs')
 const {resolve}=require('path')
 setImmediate(()=>console.log('setImmediate回调2'))
-readFileSync(resolve(__dirname,'../test.txt'),'utf-8',data=>{
+readFile(resolve(__dirname,'./test.txt'),'utf-8',data=>{
     console.log('阶段2 IO操作 读文件回调1')
 })
 setImmediate(()=>console.log('setImmediate回调1'))
+setTimeout(function(){
+    console.log('ff');
+},0);
+
+function func(cb) {
+    readFile('./test.txt',cb);
+}
+
+func(() => {
+    console.log('a');
+})

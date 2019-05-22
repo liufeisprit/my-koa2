@@ -7,8 +7,9 @@ Promise.resolve().then(()=>{
     console.log('待切入下一个阶段 promise回调1')
     setImmediate(()=>console.log('阶段3 immediate promise增加的immediate回调4'))
 })
-readFileSync(resolve(__dirname,'../test.txt'),'utf-8',data=>{
-    console.log('阶段2 IO操作 读文件回调1')
+const testTxt=readFileSync(resolve(__dirname,'./test.txt'),'utf-8')
+readFile(resolve(__dirname,'./test.txt'),'utf-8',data=>{
+    console.log('阶段2 IO操作 读文件回调1',testTxt)
 })
 readFile('../package-lock.json','utf-8',data=>{
     console.log('阶段2 IO操作 读文件回调2')
@@ -37,9 +38,12 @@ setImmediate(()=>{
         })
         readFile(resolve(__dirname,'../package.json'),'utf-8',data=>{
             console.log('阶段2 IO回调 读文件回调2')
+            setTimeout(()=>{
+                console.log('阶段1 定时器回调 回调 读文件回调2 增加的 setTimeout 回调6')
+            },0)
             setImmediate(()=>{
                 console.log('阶段3 immediate 回调 读文件回调2 增加的 Immediate 回调6')
-                setTimeout(()=>console.log('阶段1 定时器 定时器回调8'),0)
+                setTimeout(()=>console.log('阶段1 定时器 定时器回调9'),0)
             })
            
         })
@@ -49,8 +53,8 @@ setImmediate(()=>{
     process.nextTick(()=>{
         console.log('待切入下一个阶段 读文件回调5 增加的nextick 回调6')
     })
-    setTimeout(()=>console.log('阶段1 定时器回调 6'),0)
     setTimeout(()=>console.log('阶段1 定时器回调 7'),0)
+    setTimeout(()=>console.log('阶段1 定时器回调 8'),0)
 })
 setTimeout(()=>console.log('阶段1 定时器回调 1'),0)
 setTimeout(()=>{
@@ -68,3 +72,4 @@ process.nextTick(()=>{
     process.nextTick(()=>{console.log('切入下个阶段 nexttick回调 4')})
 })
 process.nextTick(()=>{console.log('切入下个阶段 nexttick回调 3')})
+
