@@ -7,14 +7,18 @@
     "dev": "nodemon -w src --exec \"babel-node src --presets env\"",
     "production": "node dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && babel src -s -D -d dist --presets env"
+    "build": "rimraf dist && babel src -s -D -d dist --presets env",
+    "server": "nodemon -w server --exec \"babel-node server --src --presets env\"",
+    "mongod": "mongod --dbpath F:/mongoDB/data"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "co": "^4.6.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "glob": "^7.1.4",
     "koa": "^2.7.0",
     "koa-convert": "1.2.0",
     "koa-logger": "^3.2.0",

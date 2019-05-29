@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 const DB_URL = 'mongodb://localhost:27017/tralier'
-
+const glob=require('glob')
+const {resolve} =require('path')
+exports.initSchemas=()=>{
+    glob.sync(resolve(__dirname,'./schema','**/*.js')).forEach(require);
+}
 exports.connect = () => {
     return new Promise((resolve, reject) => {
         let maxConnectTimes=0

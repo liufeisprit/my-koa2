@@ -1,12 +1,17 @@
 import Koa from 'koa'
+import mongoose  from 'mongoose'
 const app=new Koa()
 import html from './tpl/html'
 import ejs from 'ejs'
 import koaViews from 'koa-views'
 import path from 'path'
-import {connect} from './database/index'
+import {connect,initSchemas} from './database/index'
 ;(async ()=>{
+    initSchemas()
     await connect()
+    const Movies= mongoose.model('Movie')
+    const movie= await Movies.find({})
+    console.log(movie)
 })()
 app.use(koaViews(path.join(__dirname, './tpl'), {
     extension: 'pug'

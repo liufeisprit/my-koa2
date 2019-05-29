@@ -24,7 +24,7 @@ const userSchema=new Schema({
         required:true,
         default:0,
     },
-    lockUnitl:Number,
+    lockUnitl:Number,//要被锁定到什么时间
     meta:{
         createdAt:{
             type:Date,
@@ -36,6 +36,7 @@ const userSchema=new Schema({
         }
     }
 })
+//虚拟字段 不会真实存到数据库中
 userSchema.virtual('isLocked').get(()=>{
     return !!(this.lockUnitl&&this.lockUnitl>Date.now())
 })
@@ -68,11 +69,14 @@ userSchema.methods={
     },
     incLoginAttempts:(user)=>{
         return new Promise((resolve,reject)=>{
-            if(this.lockUnitl&&this.lockUnitl>Date.now()){
+            //如果存在锁定并且锁定时间已经过了 不需要继续锁定了
+            if(this.lockUnitl&&this.lockUnitl<Date.now()){
                 this.update({
+                    //$set 用来指定一个键并更新键值，若键不存在并创建
                     $set:{
                         loginAttempts:1
                     },
+                    //$unset 主要是用来删除键
                     $unset:{
                         lockUnitl:1
                     }
@@ -81,6 +85,8 @@ userSchema.methods={
                     else reject(err)
                 })
             }else{
+                //账号已经被锁定
+                //修改器$inc可以对文档的某个值为数字型（只能为满足要求的数字）的键进行增减的操作。
                 let updates={
                     $inc:{
                         loginAttempts:1

@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 const Schema=mongoose.Schema
-const Mixed=Schema.Types.Mixed
+const {Mixed,ObjectId}=Schema.Types
 const movieSchema=new Schema({
     doubanId:{type:String,unique:true},
     rate:Number,
@@ -14,6 +14,10 @@ const movieSchema=new Schema({
     pubdate:Mixed,
     year:Number,
     tags:Array,
+    category:[{
+        type:ObjectId,
+        ref:'Category'
+      }],
     meta:{
         createdAt:{
             type:Date,
