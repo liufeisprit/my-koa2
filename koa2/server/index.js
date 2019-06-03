@@ -6,12 +6,14 @@ import ejs from 'ejs'
 import koaViews from 'koa-views'
 import path from 'path'
 import {connect,initSchemas} from './database/index'
+const DB_URL = 'mongodb://localhost:27017/tralier'
 ;(async ()=>{
+    await connect(DB_URL)
     initSchemas()
-    await connect()
-    const Movies= mongoose.model('Movie')
-    const movie= await Movies.find({})
-    console.log(movie)
+    // const Movies= mongoose.model('Movie')
+    // const movie= await Movies.find({})
+    // console.log(movie)
+    require('./tasks/movie')
 })()
 app.use(koaViews(path.join(__dirname, './tpl'), {
     extension: 'pug'

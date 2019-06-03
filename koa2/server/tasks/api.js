@@ -1,5 +1,7 @@
 // http://api.douban.com/v2/movie/subject/26835471
 const rp=require('request-promise-native')
+const mongoose = require('mongoose')
+const Movie=mongoose.model('Movie')
 async function fetchMovie(item) {
     const url=`http://api.douban.com/v2/movie/subject/${item.doubanid}`
     const res=await rp(url)
@@ -30,6 +32,15 @@ const movies=[{ doubanid: 25982742,
     rate: 7.7,
     img:
      'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2446879524.jpg' }]
+
+     ;(async ()=>{
+        let movies=await Movie.find({
+            $or:[
+                
+            ]
+        })
+     })()
+     
 movies.forEach(async item=>{
     console.log(item.title)
     var res=await fetchMovie(item)

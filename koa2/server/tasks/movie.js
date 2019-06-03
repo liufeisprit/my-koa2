@@ -19,7 +19,8 @@ const Movie=mongoose.model('Movie')
     })
     child.on('message',data=>{
         let {result} =data;
-        result.array.forEach(async item => {
+        console.log(result)
+        result.forEach(async item => {
             let movie=await Movie.findOne({
                 doubanId:item.doubanId
             })

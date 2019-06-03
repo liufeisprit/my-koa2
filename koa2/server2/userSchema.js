@@ -1,15 +1,15 @@
 const mongoose=require('mongoose')
 const Schema=mongoose.Schema
-const ObjectId=Schema.Types.ObjectId
-const categorySchema=new Schema({
-    name:{
-        unique:true,
-        type:String
+const userSchema=new Schema({
+    "room_id":Number,
+    "uid":{
+        unique:true,type:Number
     },
-    movies:[{
-      type:ObjectId,
-      ref:'Movie'
-    }],
+    "lookvideo":Number,
+    "name":String,
+    "pic":String,
+    "plat":String,
+    "type":Number,
     meta:{
         createdAt:{
             type:Date,
@@ -21,7 +21,7 @@ const categorySchema=new Schema({
         }
     }
 })
-categorySchema.pre('save',function(next){
+userSchema.pre('save',function(next){
     if(this.isNew){
         this.meta.createdAt=this.meta.updateAt=Date.now()
     }else{
@@ -29,4 +29,4 @@ categorySchema.pre('save',function(next){
     }
     next()
 })
-mongoose.model('Category',categorySchema) 
+mongoose.model('UserList',userSchema) 

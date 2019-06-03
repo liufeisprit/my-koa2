@@ -8,16 +8,17 @@ const movieSchema=new Schema({
     summary:String,
     cover:String,
     video:String,
+    videoKey:String,
     poster:String,
     rawTtile:String,
     movieTypes:[String],
     pubdate:Mixed,
     year:Number,
     tags:Array,
-    category:[{
+    category:{
         type:ObjectId,
         ref:'Category'
-      }],
+      },
     meta:{
         createdAt:{
             type:Date,
@@ -29,7 +30,7 @@ const movieSchema=new Schema({
         }
     }
 })
-movieSchema.pre('save',(next)=>{
+movieSchema.pre('save',function(next){
     if(this.isNew){
         this.meta.createdAt=this.meta.updateAt=Date.now()
     }else{

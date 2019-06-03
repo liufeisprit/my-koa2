@@ -5,8 +5,8 @@ const puppeteer =require('puppeteer')
     const browser=await puppeteer.launch({
         args:['--no-sandbox'],
         dumpio:false,
-        // executablePath:'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-        executablePath:'C:\\Users\\dell\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe',
+        executablePath:'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        // executablePath:'C:\\Users\\dell\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe',
         headless:false
     })
     const page=await browser.newPage();
@@ -26,13 +26,13 @@ const puppeteer =require('puppeteer')
         if(items.length>0){
             items.each((index,item)=>{
                 var it=$(item)
-                var doubanid=it.find('.cover-wp').data('id')
+                var doubanId=it.find('.cover-wp').data('id')
                 var title=it.find('.title').text()
                 var rate=Number(it.find('.rate').text())
                 var img=it.find('img').attr('src').replace('s_ratio','l_ratio')
                 
                 links.push({
-                    doubanid,title,rate,img
+                    doubanId,title,rate,img
                 })
             }) 
         }

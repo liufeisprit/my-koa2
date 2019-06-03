@@ -37,11 +37,11 @@ const userSchema=new Schema({
     }
 })
 //虚拟字段 不会真实存到数据库中
-userSchema.virtual('isLocked').get(()=>{
+userSchema.virtual('isLocked').get(function(){
     return !!(this.lockUnitl&&this.lockUnitl>Date.now())
 })
 //中间件 在保存前 执行的方法
-userSchema.pre('save',(next)=>{
+userSchema.pre('save',function(next){
     if(!this.isModified('password')){return next()}
     bcrypt.getSalt(SALT_WORK_FACTORY,(err,salt)=>{
         if(err) return next(err)
@@ -59,7 +59,7 @@ userSchema.pre('save',(next)=>{
     next()
 })
 userSchema.methods={
-    comparePassword:(_password,password)=>{
+    comparePassword:function(_password,password){
         return new Promise((resolve,reject)=>{
             bcrypt.compare(_password,password,(err,isMatch)=>{
                 if(!err) return resolve(isMatch)
@@ -67,7 +67,7 @@ userSchema.methods={
             })
         })
     },
-    incLoginAttempts:(user)=>{
+    incLoginAttempts:function(user){
         return new Promise((resolve,reject)=>{
             //如果存在锁定并且锁定时间已经过了 不需要继续锁定了
             if(this.lockUnitl&&this.lockUnitl<Date.now()){

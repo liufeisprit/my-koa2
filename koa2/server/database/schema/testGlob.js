@@ -2,7 +2,7 @@ const glob = require("glob");
 const mongoose = require("mongoose");
 const { resolve } = require("path");
 const {connect} =require('../index')
-const schemaJs = glob.sync(resolve(__dirname, "**/*.js"));
+const schemaJs = glob.sync(resolve(__dirname,'!(testGlob).js'));
 ; (async () => {
 	schemaJs.forEach(require);
     const Movies =mongoose.model("Movie");
@@ -10,5 +10,4 @@ const schemaJs = glob.sync(resolve(__dirname, "**/*.js"));
     await connect()
     const movie=await Movies.find({})
     console.log(movie);
-    
 })();
