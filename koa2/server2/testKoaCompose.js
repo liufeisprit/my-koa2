@@ -1,15 +1,13 @@
 // const compose=require('koa-compose')
 function one(ctx,next){
     console.log('第一个');
-    console.log(next.toString())
     next(); // 控制权交到下一个中间件（实际上是可以执行下一个函数），
-    // console.log(a)
     // next(); 
     console.log('第一个 end')
 }
 function two(ctx,next){
     console.log('第二个');
-    // next();
+    next();
     console.log('第二个 end')
 }
 function three(ctx,next){
@@ -36,7 +34,7 @@ function compose (middleware) {
         index = i
         let fn = middleware[i]
         console.log('next============='+next)
-        console.log(fn.name)
+        console.log(fn)
         if (i === middleware.length) fn = next
         if (!fn) return Promise.resolve()
         try {

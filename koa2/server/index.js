@@ -13,7 +13,7 @@ const DB_URL = 'mongodb://localhost:27017/tralier'
     // const Movies= mongoose.model('Movie')
     // const movie= await Movies.find({})
     // console.log(movie)
-    require('./tasks/movie')
+    require('./tasks/api')
 })()
 app.use(koaViews(path.join(__dirname, './tpl'), {
     extension: 'pug'

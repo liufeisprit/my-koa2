@@ -10,15 +10,15 @@ const movieSchema=new Schema({
     video:String,
     videoKey:String,
     poster:String,
-    rawTtile:String,
+    original_title:String,
     movieTypes:[String],
     pubdate:Mixed,
     year:Number,
     tags:Array,
-    category:{
+    category:[{
         type:ObjectId,
         ref:'Category'
-      },
+      }],
     meta:{
         createdAt:{
             type:Date,
