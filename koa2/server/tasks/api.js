@@ -1,7 +1,7 @@
 // http://api.douban.com/v2/movie/subject/26835471
 const rp=require('request-promise-native')
 const mongoose = require('mongoose')
-const Movie=mongoose.model('Movie')
+// const Movie=mongoose.model('Movie')
 async function fetchMovie(item) {
     const url=`http://api.douban.com/v2/movie/subject/${item.doubanid}`
     const res=await rp(url)
@@ -33,13 +33,30 @@ const movies=[{ doubanid: 25982742,
     img:
      'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2446879524.jpg' }]
 
-     ;(async ()=>{
-        let movies=await Movie.find({
-            $or:[
-                
-            ]
-        })
-     })()
+    //  ;(async ()=>{
+    //     let movies=await Movie.find({
+    //         $or:[
+    //             {summary:{$exists:false}},
+    //             {summary:null},
+    //             {title:''},
+    //             {summary:''}
+    //         ]
+    //     })
+    //     for(var i=0;i<movies.length;i++){
+    //         let moviesItem=movies[i];
+    //         let movieData=fetchMovie(moviesItem)
+    //         if(movieData){
+    //             let {tag}=movieData||[]
+    //             moviesItem.tag=tag||'';
+    //             moviesItem.summary=movieData.summary||''
+    //             moviesItem.title=movieData.alt_title||movieData.title||''
+    //             moviesItem.rawTitle=movieData.rawTitle||movieData.title||''
+    //             if(movieData.attr){
+
+    //             }
+    //         }
+    //     }
+    //  })()
      
 movies.forEach(async item=>{
     console.log(item.title)

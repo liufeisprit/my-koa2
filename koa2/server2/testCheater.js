@@ -1,6 +1,6 @@
 const rp=require('request-promise-native')
-const url='http://1010.ytdk.chixintech.cn/live/robots/1010'
-const url2='http://1010.ytdk.chixintech.cn/live/userlist/1010'
+const urlRobots='http://1010.ytdk.chixintech.cn/live/robots/1010'
+const urlUserlist='http://1010.ytdk.chixintech.cn/live/userlist/1010'
 const fs=require('fs')
 const {resolve}=require('path')
 const mongoose=require('mongoose')
@@ -15,21 +15,19 @@ let robots_num=0,user_num=0;
 const sleep = time => new Promise(resolve => {
     setTimeout(resolve, time)
   })
-function requestUrl(page){
-    let requrl=`${url2}?page=${page}&_=${timeTemp}`
+function requestUrl(page,url){
+    let requrl=`${url}?page=${page}&_=${timeTemp}`
     console.log(requrl)
     let res=rp(requrl)
     return res
 }
 async function fetchRobots(){
-    
     page++;
     await sleep(1000)
-    let res=await requestUrl(page)
+    let res=await requestUrl(page,urlRobots)
     let {robots}=JSON.parse(res)
     robots_num+=Number(robots.length);
-    console.log(robots_num,page,robots[0])
-    return;
+    console.log('page=>'+page+'robots_num=>' + robots_num)
     if(robots.length<15){
         console.log('robots_num is ' + robots_num)
         return;
@@ -39,7 +37,7 @@ async function fetchRobots(){
 async function fetchUser(){
     page++;
     await sleep(1000)
-    let res=await requestUrl(page)
+    let res=await requestUrl(page,urlUserlist)
     let {list}=JSON.parse(res)
     user_num+=Number(list.length);
     console.log(user_num,page)
@@ -67,6 +65,6 @@ async function fetchUser(){
 ;(async ()=>{
     // fetchRobots()
     await connect(DB_URL)
-    
+    // fetchRobots()
     fetchUser()
 })()
