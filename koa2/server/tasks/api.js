@@ -8,9 +8,9 @@ async function fetchMovie(item) {
     const res=await rp(url)
     let body;
     try {
-        body=JSON.parseres()
+        body=JSON.parse(res)
     } catch (error) {
-        console.log(body)
+        console.log(error)
     }
     return body
 }
@@ -39,49 +39,82 @@ async function fetchMovie(item) {
 //     rate: 7.7,
 //     img:
 //      'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2446879524.jpg' }]
-
+    //对爬取到的数据精加工 通过豆瓣api 拿到详细数据 存到数据库
      ;(async ()=>{
         let movies=await Movie.find({
             $or:[
                 {summary:{$exists:false}},
                 {summary:null},
+                {year:{$exists:false}},
                 {title:''},
                 {summary:''}
             ]
         })
-        for(var i=0;i<movies.length;i++){
+        //遍历需要加工的数据
+        for(var i=0;i<[movies[0]].length;i++){
             let moviesItem=movies[i];
-            let movieData=fetchMovie(moviesItem)
+            //请求豆瓣api
+            let movieData=await fetchMovie(moviesItem)
             if(movieData){
                 let {tags}=movieData||[]
-                moviesItem.tags=tags||'';
+                tags.forEach(item=>{
+                    if(moviesItem.tags.indexOf(item.name)===-1)
+                    moviesItem.tags.push(item.name)
+                })
                 moviesItem.summary=movieData.summary||''
                 moviesItem.title=movieData.alt_title||movieData.title||''
                 moviesItem.original_title=movieData.title||''
-                moviesItem.movieTypes=movieData.genres||[]
-                moviesItem.pubdates=movieData.pubdates||[]
-                moviesItem.year=movieData.year||''
-                moviesItem.movieTypes.forEach(async item=>{
-                    let cat=Category.findOne({
-                        name:item
+                
+
+                if(movieData.attrs){
+                    let MoveiDataAttrs=movieData.attrs
+                    moviesItem.movieTypes=MoveiDataAttrs.movie_type||[]
+                    moviesItem.director=MoveiDataAttrs.director
+                    moviesItem.year=MoveiDataAttrs.year[0]||2500
+                    let dates=MoveiDataAttrs.pubdate||[];
+                    let pubdate=[]
+                    dates.forEach(item=>{
+                        if(item&&item.split(')').length>0){
+                            let parts=item.split('(')
+                            let date=parts[0]
+                            let country='未知'
+                            parts[1]&&(country=parts[1].split(')')[0])
+                            pubdate.push({
+                                date:new Date(date),
+                                country
+                            })
+                        }
                     })
-                    if(!cat){
-                        cat=new Category({
-                            name:item,movies:[moviesItem._id]
+                    moviesItem.pubdate=pubdate
+                    //movie_type 电影类型 
+                    //里面有异步操作 不要用forEach(async ()=>)等方法
+                    for(var i=0;i<moviesItem.movieTypes.length;i++){
+                        let item=moviesItem.movieTypes[i]
+                        let cat=await Category.findOne({
+                            name:item
                         })
-                    }else{
-                        if(cat.movies.indexOf(moviesItem._id)===-1){
-                            cat.movies.push(moviesItem._id)
+                        if(!cat){
+                            cat=new Category({
+                                name:item,movies:[moviesItem._id]
+                            })
+                        }else{
+                            //如果分类下没有该电影id push一条
+                            if(cat.movies.indexOf(moviesItem._id)===-1){
+                                cat.movies.push(moviesItem._id)
+                            }
+                        }
+                        await cat.save()
+                        if(!moviesItem.category.length){
+                            moviesItem.category.push(cat._id)
+                        }else{
+                            //如果category中没有该电影的_id push一条
+                            if(moviesItem.category.indexOf(cat._id)===-1)
+                            moviesItem.category.push(cat._id)
                         }
                     }
-                    await cat.save()
-                    if(!movie.category){
-                        movie.category.push(cat._id)
-                    }else{
-                        if(cat.category.indexOf(cat._id)===-1)
-                        movie.category.push(cat._id)
-                    }
-                })
+                }
+                console.log(moviesItem)
+                await moviesItem.save()
                 
             }
         }

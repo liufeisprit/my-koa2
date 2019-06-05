@@ -13,6 +13,7 @@ const movieSchema=new Schema({
     original_title:String,
     movieTypes:[String],
     pubdate:Mixed,
+    director:[String],
     year:Number,
     tags:Array,
     category:[{
