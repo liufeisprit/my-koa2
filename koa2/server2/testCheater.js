@@ -7,7 +7,9 @@ const mongoose=require('mongoose')
 const DB_URL = 'mongodb://localhost:27017/cheater'
 const {connect}=require('../server/database/index')
 require('./userSchema')
+require('./robotsSchema')
 const User=mongoose.model('UserList')
+const Robots=mongoose.model('RobotsList')
 //?page=1&_=1559287489176'
 var timeTemp=Date.now()
 let page=0
@@ -23,44 +25,50 @@ function requestUrl(page,url){
 }
 async function fetchRobots(){
 
-    let num=11;
-    let resultArr=[1,2,3,4,5,6,7,8,9,10,]
-    console.time('程序耗时')
+    // let num=11;
+    // let resultArr=[1,2,3,4,5,6,7,8,9,10,]
+    // console.time('程序耗时')
     // for(var i of resultArr){
     //     let robotsArr=await requestUrl(i,urlRobots)
     //     robotsArr=JSON.parse(robotsArr)
     // }
-    resultArr.map(async item=>{
-        await requestUrl(item,urlRobots)
-    })
-    console.timeEnd('程序耗时')
-    console.log('Finished!');
+    // resultArr.map(async item=>{
+    //     await requestUrl(item,urlRobots)
+    // })
+    // console.timeEnd('程序耗时')
+    // console.log('Finished!');
     // Promise.all(resultArr)
     // page++;
-    // await sleep(1000)
-    // let res=await requestUrl(page,urlRobots)
-    // let {robots}=JSON.parse(res)
-    // robots_num+=Number(robots.length);
-    // console.log('page=>'+page+'robots_num=>' + robots_num)
+    let robotsItem=await Robots.find({},{uid:1,_id:0}).limit(10)
+    console.time('forof程序耗时')
+    for(var item of robotsItem){
+        console.log(Date.now())
+        // await Robots.findOne({
+        //     uid:item.uid
+        // })
+    }
+    console.timeEnd('forof程序耗时')
+    console.time('promiseAll程序耗时')
+    await Promise.all(robotsItem.map(async item=>{
+        console.log(Date.now())
+        //  return Robots.find({},{uid:1,_id:0}).limit(10)
+        // return Robots.findOne({
+        //     uid:item.uid
+        // })
+    }))
+    // var result=[]
+    // for(var item of robotsItem){
+    //     result.push(Robots.findOne({uid:item.uid}))
+    // }
+    // for (var awTb of result)
+    // await awTb
+    console.timeEnd('promiseAll程序耗时')
     // if(robots.length<15){
     //     console.log('robots_num is ' + robots_num)
     //     return;
     // }
     // fetchRobots()
 
-}
- function getItemList(item){
-    return new Promise(async res=>{
-        let userItem=await User.findOne({
-            uid:item.uid
-        })
-        if(!userItem){
-            userItem=new User(item)
-            await userItem.save()
-        }
-        res()
-    })
-    
 }
 
 async function fetchUser(){
@@ -117,17 +125,18 @@ async function fetchUser(){
 
 async function test(){
     let userItem=await User.find({},{uid:1,_id:0}).limit(10)
+    console.log(userItem)
     console.time('程序耗时')
     // for(var item of userItem){
     //     await User.findOne({
     //         uid:item.uid
     //     })
     // }
-    await Promise.all(userItem.map(item=>{
-        return User.findOne({
-            uid:item.uid
-        })
-    }))
+    // await Promise.all(userItem.map(item=>{
+    //     return User.findOne({
+    //         uid:item.uid
+    //     })
+    // }))
     console.timeEnd('程序耗时')
 }
 ;(async ()=>{
@@ -135,8 +144,8 @@ async function test(){
     await connect(DB_URL)
     
     // await fetchUser()
-    // await fetchRobots()
-    await test()
+    await fetchRobots()
+    // await test()
 
     
 })()
