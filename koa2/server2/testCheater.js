@@ -39,23 +39,24 @@ async function fetchRobots(){
     // console.log('Finished!');
     // Promise.all(resultArr)
     // page++;
-    let robotsItem=await Robots.find({},{uid:1,_id:0}).limit(10)
+    let robotsItem=await Robots.find({},{uid:1,_id:0}).limit(5)
     console.time('forof程序耗时')
     for(var item of robotsItem){
-        console.log(Date.now())
-        // await Robots.findOne({
-        //     uid:item.uid
-        // })
+        // console.log(Date.now())
+        await Robots.findOne({
+            uid:item.uid
+        })
     }
     console.timeEnd('forof程序耗时')
     console.time('promiseAll程序耗时')
-    await Promise.all(robotsItem.map(async item=>{
-        console.log(Date.now())
+    let userLists=await Promise.all(robotsItem.map(async item=>{
+        // console.log(Date.now())
         //  return Robots.find({},{uid:1,_id:0}).limit(10)
-        // return Robots.findOne({
-        //     uid:item.uid
-        // })
+        return Robots.findOne({
+            uid:item.uid
+        })
     }))
+    console.log(userLists.length)
     // var result=[]
     // for(var item of robotsItem){
     //     result.push(Robots.findOne({uid:item.uid}))

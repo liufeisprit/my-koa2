@@ -12,29 +12,26 @@ exports.connect = (DB_URL) => {
             mongoose.set('debug', true)
         }
         mongoose.connect(DB_URL)
-        mongoose.connection.on('disconnected', () => {
+        mongoose.connection.on('disconnected', (err) => {
+            console.log('disconnected',err)
             if(maxConnectTimes<5){
                 mongoose.connect(DB_URL)
             }else{
-                throw new Error('数据库挂了吧 赶快解决吧 骚年')
+                throw new Error('数据库挂了')
             }
         });
         mongoose.connection.on('error', err => {
+            console.log('error',err)
             maxConnectTimes++
             if(maxConnectTimes<5){
                 mongoose.connect(DB_URL)
             }else{
-                throw new Error('数据库挂了吧 赶快解决吧 骚年')
+                throw new Error('数据库挂了')
             }
         });
         mongoose.connection.once('open', data => {
-            // const Dogs=mongoose.model('Dogs',{name:'String'});
-            // const doga=new Dogs({name:'阿尔法'})
-            // doga.save().then(()=>{
-            //     console.log('wang')
-            // }) 
-            resolve()
             console.log('mongodb connected success')
+            resolve()
         });
     })
 }
