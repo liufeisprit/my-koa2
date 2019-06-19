@@ -24,12 +24,12 @@ async function fetchRobots(){
     let {robots}=JSON.parse(res)
     // console.log(robots)
     let arr=await queryModel('select *  from cheater')
-    console.log(arr)
+    console.log(arr.length)
     return
     robots.map(async (item)=>{
         let robot=await queryModel('select uid from cheater')
         if(!robot.length){
-            // console.log('有新用户')
+            console.log('有新用户')
             let result=[]
             let str=['uid','room_id','name','type','created_at','updated_at']
             for(var i in item){
@@ -43,43 +43,22 @@ async function fetchRobots(){
             let res=await queryModel(query1,result)
 
         }
-    })
-    
-    //     console.time('forof程序耗时')
-    // for(var item of robotsItem){
-    //     // console.log(Date.now())
-    //     await Robots.findOne({
-    //         uid:item.uid
-    //     })
-    // }
-    // })
-    // let query1='select * from customers'
-    // let result=await queryModel(query1)
-    // console.time('程序耗时1')
-    // // let forResult=[]
-    // for(var item of result){
-    //     await queryModel(`select * from customers where cust_Id=${item.cust_Id}`)
-    //     // queryModel(`select * from customers where cust_Id=${item.cust_Id}`)
-    // }
-    // // console.log(forResult)
-    // console.timeEnd('程序耗时1')
-    // console.log('================================')
-    // console.time('程序耗时2')
-    // await Promise.all(result.map(item=>{
-    //     // return requestUrl(1,urlRobots)
-    //     return queryModel(`select * from customers where cust_Id=${item.cust_Id}`)
-               
-    // }))
-    // // console.log(promiseResult)
-    // console.timeEnd('程序耗时2')   
+    }) 
 }
-
+async function test(){
+    let result=await queryModel('select *  from cheater')
+    console.time('程序计时for循环')
+    for(var item of result){
+        await queryModel(`select * from cheater where uid=${item.uid}`)
+    }
+    console.timeEnd('程序计时for循环')
+    console.time('程序计时promise.all')
+    await Promise.all(result.map(item=>{
+        return queryModel(`select * from cheater where uid=${item.uid}`)
+    }))
+    console.timeEnd('程序计时promise.all')
+}
 ;(async ()=>{
-    // create table tb_dept(
-    //     9     Id int primary key auto_increment,#部门编号 整形 主键 自增长
-    //    10     Name varchar(18),#部门名称
-    //    11     description varchar(100)#描述
-    //    12 );
     // await queryModel('DROP TABLE if  exists cheater')
     let createTable=`create table  if not exists  cheater (
         uid int primary key,
@@ -90,5 +69,6 @@ async function fetchRobots(){
         updated_at varchar(255)
      ) default charset=utf8`
     await queryModel(createTable)
-    await fetchRobots()
+    await test()
+    // await fetchRobots()
 })()
