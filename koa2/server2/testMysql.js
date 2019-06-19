@@ -22,14 +22,11 @@ async function fetchRobots(){
     await sleep(1000)
     let res=await requestUrl(page,urlRobots)
     let {robots}=JSON.parse(res)
-    // console.log(robots)
-    let arr=await queryModel('select *  from cheater')
-    console.log(arr)
-    return
+    // return
     robots.map(async (item)=>{
-        let robot=await queryModel('select uid from cheater')
+        let robot=await queryModel(`select * from cheater where uid =${item.uid}`)
         if(!robot.length){
-            // console.log('有新用户')
+            console.log('有新用户')
             let result=[]
             let str=['uid','room_id','name','type','created_at','updated_at']
             for(var i in item){
@@ -40,11 +37,12 @@ async function fetchRobots(){
             }
             // console.log(result)
             let query1=`insert into cheater (uid,room_id,name,type,created_at,updated_at) values (?,?,?,?,?,?)`
-            let res=await queryModel(query1,result)
-
+            await queryModel(query1,result)
         }
     })
     
+    let arr=await queryModel('select *  from cheater')
+    console.log(arr.length)
     //     console.time('forof程序耗时')
     // for(var item of robotsItem){
     //     // console.log(Date.now())
@@ -73,7 +71,27 @@ async function fetchRobots(){
     // // console.log(promiseResult)
     // console.timeEnd('程序耗时2')   
 }
-
+async function test() { 
+    let query1='select * from cheater'
+    let result=await queryModel(query1)
+    console.log('===============================')
+    // console.log(result)
+    console.time('程序耗时1')
+    for(var item of result){
+        await queryModel(`select * from cheater where uid=${item.uid}`)
+    }
+    // console.log(forResult)
+    console.timeEnd('程序耗时1')
+    console.log('================================')
+    console.time('程序耗时2')
+    let promiseResult=await Promise.all(result.map(item=>{
+        // return requestUrl(1,urlRobots)
+        return queryModel(`select * from cheater where uid=${item.uid}`)
+               
+    }))
+    console.log(promiseResult.length)
+    console.timeEnd('程序耗时2')
+ }
 ;(async ()=>{
     // create table tb_dept(
     //     9     Id int primary key auto_increment,#部门编号 整形 主键 自增长
@@ -90,5 +108,6 @@ async function fetchRobots(){
         updated_at varchar(255)
      ) default charset=utf8`
     await queryModel(createTable)
-    await fetchRobots()
+    // await fetchRobots()
+    test()
 })()
