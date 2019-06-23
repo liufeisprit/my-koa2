@@ -129,28 +129,31 @@ async function fetchUser(){
 }
 
 async function test(){
-    let userItem=await User.find({},{uid:1,_id:0}).limit(10)
-    console.log(userItem)
-    console.time('程序耗时')
-    // for(var item of userItem){
-    //     await User.findOne({
-    //         uid:item.uid
-    //     })
-    // }
-    // await Promise.all(userItem.map(item=>{
-    //     return User.findOne({
-    //         uid:item.uid
-    //     })
-    // }))
-    console.timeEnd('程序耗时')
+    let userItem=await User.find({},{uid:1,_id:0})
+    console.log(userItem.length)
+    console.time('程序耗时2')
+    await Promise.all(userItem.map(item=>{
+        return User.findOne({
+            uid:item.uid
+        })
+    }))
+    console.timeEnd('程序耗时2')
+    console.time('程序耗时1')
+    for(var item of userItem){
+        await User.findOne({
+            uid:item.uid
+        })
+    }
+    console.timeEnd('程序耗时1')
+    
 }
 ;(async ()=>{
     // fetchRobots()
     await connect(DB_URL)
     
     // await fetchUser()
-    await fetchRobots()
-    // await test()
+    // await fetchRobots()
+    await test()
 
     
 })()

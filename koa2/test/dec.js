@@ -7,6 +7,8 @@ class Boy {
 }
 function speak(language) {
     return function (target,key,descriptor) { 
+        console.log(key)
+        console.log(target)
         target.language=language
         return descriptor
      }
