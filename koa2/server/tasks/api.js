@@ -50,8 +50,9 @@ async function fetchMovie(item) {
                 {summary:''}
             ]
         })
+        console.log(movies.length)
         //遍历需要加工的数据
-        for(var i=0;i<[movies[0]].length;i++){
+        for(var i=0;i<movies.length;i++){
             let moviesItem=movies[i];
             //请求豆瓣api
             let movieData=await fetchMovie(moviesItem)
@@ -88,8 +89,10 @@ async function fetchMovie(item) {
                     moviesItem.pubdate=pubdate
                     //movie_type 电影类型 
                     //里面有异步操作 不要用forEach(async ()=>)等方法
-                    for(var i=0;i<moviesItem.movieTypes.length;i++){
-                        let item=moviesItem.movieTypes[i]
+                    
+                    for(var j=0;j<moviesItem.movieTypes.length;j++){
+                        console.log(`movieTypes 长度${moviesItem.movieTypes.length}`)
+                        let item=moviesItem.movieTypes[j]
                         let cat=await Category.findOne({
                             name:item
                         })
@@ -107,7 +110,7 @@ async function fetchMovie(item) {
                         if(!moviesItem.category.length){
                             moviesItem.category.push(cat._id)
                         }else{
-                            //如果category中没有该电影的_id push一条
+                            //如果category中没有该电影的分类_id push一条
                             if(moviesItem.category.indexOf(cat._id)===-1)
                             moviesItem.category.push(cat._id)
                         }

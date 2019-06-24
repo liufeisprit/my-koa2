@@ -24,7 +24,8 @@ async function start() {
     await connect(DB_URL)
     initSchemas()
     const app=new Koa()
-    await useMiddlewares(app)
+    // await useMiddlewares(app)
+    require('./tasks/api')
     console.log('node start')
     app.listen(2333)
 }
