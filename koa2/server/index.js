@@ -7,7 +7,7 @@ import koaViews from 'koa-views'
 import {resolve} from 'path'
 import {connect,initSchemas} from './database/index'
 import * as R from 'ramda'
-const MIDDLEWARES=['router']
+const MIDDLEWARES=['router','parcel']
 const DB_URL = 'mongodb://localhost:27017/tralier'
 const useMiddlewares=(app)=>{
     R.map(

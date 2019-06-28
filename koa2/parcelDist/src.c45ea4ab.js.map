@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.js"],"names":["changeTitle","$","html","setTimeout"],"mappings":";AAAA,SAASA,IACLC,EAAE,QAAQC,KAAK,aAEnBC,WAAW,WACPH,KACD","file":"src.c45ea4ab.js","sourceRoot":"..\\src","sourcesContent":["function changeTitle() {\r\n    $('#app').html('parcel大包包')\r\n}\r\nsetTimeout(() => {\r\n    changeTitle()\r\n}, 2000);"]}

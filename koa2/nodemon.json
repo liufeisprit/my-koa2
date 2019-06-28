@@ -1,0 +1,18 @@
+{
+    "restartable":"rs",
+    "ignore":[
+        ".git",
+        "node_modules/**/node_modules",
+        "parcelDist"
+    ],
+    "verbose":true,
+    "exexMap":{
+        "js":"node --harmony"
+    },
+    "watch":[
+        "server/",
+        "src/views",
+        "views"
+    ],
+    "ext":"js json"
+}

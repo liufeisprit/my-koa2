@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "rimraf parcelDist && rimraf .cache && cross-env  NODE_ENV=development nodemon --exec \"babel-node server/index.js\"",
     "dev": "nodemon -w src --exec \"babel-node src --presets env\"",
     "production": "node dist",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,6 +27,7 @@
     "koa-convert": "1.2.0",
     "koa-logger": "^3.2.0",
     "koa-session": "^5.10.1",
+    "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
     "mongoose": "^5.5.10",
     "mysql": "^2.17.1",
@@ -45,6 +47,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.26.0",
+    "cross-env": "^5.2.0",
     "cssnext": "^1.8.4",
     "node-sass": "^4.12.0",
     "parcel-bundler": "^1.12.3",
