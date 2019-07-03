@@ -4,7 +4,7 @@ const serve=require('koa-static')
 const {resolve}=require('path')
 const r=path=>resolve(__dirname,path )
 const bundler=new Bundler(r('../../../src/index.html'),{
-    publicUrl:'./',
+    publicUrl:'/',
     watch:true,
     outDir: './parcelDist',
     cache: false

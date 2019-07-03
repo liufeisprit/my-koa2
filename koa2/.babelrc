@@ -8,7 +8,8 @@
                 }
             }
         ],
-        "stage-0"
+        "stage-0",
+        "react"
     ],
     "plugins": [[
         "transform-runtime",
@@ -18,6 +19,6 @@
           "regenerator": true,
           "moduleName": "babel-runtime"
         }
-      ],["transform-decorators-legacy"]
+      ],["transform-decorators-legacy"],["transform-class-properties"]
     ]
 }
