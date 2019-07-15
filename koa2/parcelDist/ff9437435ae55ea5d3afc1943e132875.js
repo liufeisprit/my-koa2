@@ -90,7 +90,7 @@ let Detail = class Detail extends _react.Component {
 
 };
 exports.default = Detail;
-},{"react":18}],0:[function(require,module,exports) {
+},{"react":20}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -108,7 +108,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent) {
-  var ws = new WebSocket('ws://localhost:61619/');
+  var ws = new WebSocket('ws://localhost:54634/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
