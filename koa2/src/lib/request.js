@@ -1,4 +1,4 @@
-import asios from 'asios'
+import axios from 'axios'
 import {message} from 'antd'
 const defaultAxiosConf={
     timeout:5000
@@ -7,7 +7,7 @@ const _request=(params={},fn=()=>{})=>{
     return axios({...defaultAxiosConf,...params}).
     then(res=>{
         const {success,data,err,code}=res.data
-        if(code=401){
+        if(code==401){
             window.location.href='/';
             return
         }

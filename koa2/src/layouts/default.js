@@ -8,7 +8,7 @@ const getMenuContent=({path,name})=>{
     </a>
 }
 export default class Layout extends Component{
-    constructor(){
+    constructor(props){
         super(props)
         this.state={
             loading:false,
@@ -47,7 +47,7 @@ export default class Layout extends Component{
                             marginLeft:24,
                             marginRight:30,
                             fontSize:18,
-                            textAlign:center,
+                            textAlign:'center',
                             color:'#fff !important',
                             float:'left'
                         }}
