@@ -1,5 +1,5 @@
 const base =`https://movie.douban.com/subject/`
-const doubanid=`26584183`
+const doubanid=`3927734`
 // const video=`https://movie.douban.com/trailer/244061/#content`
 const puppeteer =require('puppeteer')
 ;(async ()=>{
@@ -7,8 +7,8 @@ const puppeteer =require('puppeteer')
     const browser=await puppeteer.launch({
         args:['--no-sandbox'],
         dumpio:false,
-        // executablePath:'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-        executablePath:'C:\\Users\\dell\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe',
+        executablePath:'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        // executablePath:'C:\\Users\\dell\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe',
         headless:false
     })
     const page=await browser.newPage();
@@ -52,6 +52,7 @@ const puppeteer =require('puppeteer')
         doubanid,
         cover:result.cover
     }
+    console.log(data)
     browser.close()
     process.send({data})
     process.exit(0)

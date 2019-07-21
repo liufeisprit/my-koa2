@@ -2,10 +2,12 @@ import React , {Component} from 'react'
 import {
     Row,Col,Card,Badge,Icon,
 } from 'antd'
+import {Link} from 'react-router-dom'
 const Meta=Card.Meta
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
+const site = 'http://video.iblack7.com/'
 export default class Content extends Component {
     _renderContent(){
         const {movies}=this.props;
@@ -13,9 +15,9 @@ export default class Content extends Component {
             <div style={{padding:'30px'}}>
                 <Row>
                     {
-                        movies.map((it,index)=>{
+                        movies.map((it,index)=>(
                             <Col
-                                key={i}
+                                key={index}
                                 xl={{span:6}}
                                 lg={{span:8}}
                                 md={{span:12}}
@@ -29,7 +31,7 @@ export default class Content extends Component {
                                     action={[
                                         <Badge>
                                             <Icon type="clock-circle" style={{marginRight:2}}/>
-                                            {mement(it.meta.creatddAt).fromNow(true)}前更新
+                                            {moment(it.meta.creatddAt).fromNow(true)}前更新
                                         </Badge>,
                                         <Badge>
                                         <Icon type="star" style={{marginRight:2}}/>
@@ -49,9 +51,16 @@ export default class Content extends Component {
                                     </Meta>
                                 </Card>
                             </Col>
-                        })
+                        ))
                     }
                 </Row>
+            </div>
+        )
+    }
+    render() {
+        return (
+            <div style={{padding:10}}>
+                {this._renderContent()}
             </div>
         )
     }

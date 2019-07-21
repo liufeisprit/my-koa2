@@ -1,12 +1,12 @@
 import React,{Component} from 'react'
 import {Menu,Spin} from 'antd'
-import {Link} from 'react-router-dom'
+
 import navRoutes from './nav'
-const getMenuContent=({path,name})=>{
+const getMenuContent=({path,name})=>(
     <a href={path?path:'/'} style={{color:'#fff2e8'}}>
         {name}
     </a>
-}
+)
 export default class Layout extends Component{
     constructor(props){
         super(props)
@@ -28,19 +28,19 @@ export default class Layout extends Component{
     : navRoutes[0].name
     toggleLoading = (status=false,tip='再等一下下嘛!')=>{
         this.setState({
+            loading:status,
             tip,
-            loading:status
         })
     }
     render() {
         const {children}=this.props;
-        const {loading , tip}=this.props;
+        const {loading , tip}=this.state;
         return (
             <div className='flex-form' style={{width:'100%',height:'100%'}}>
                 <Menu
                     mode='horizontal'
                     style={{fontSize:12.5,backgroundColor:'#000'}}
-                    defaultSelectKeys={this.matchRouteName}
+                    defaultSelectedKeys={[this.matchRouteName]}
                 >
                     <Menu.Item 
                         style={{
@@ -55,24 +55,25 @@ export default class Layout extends Component{
                         <a href={'/'} className='hover-scale logo-text' style={{
                             color:'#fff2e8'
                         }}>预告片</a>
-                        {
-                            navRoutes.map((e,i)=>{
-                                <Menu.Item>
-                                {
-                                    getMenuContent({...e})
-                                }
-                                </Menu.Item>
-                            })
-                        }
-                    </Menu.Item>
-                    <Spin
-                        spinning={loading}
-                        tip={tip}
-                        wrapperClassName='content-spin full'
-                    >
-                        {children}
-                    </Spin>
+                     </Menu.Item>
+                    {
+                        navRoutes.map((e,i)=>(
+                            <Menu.Item key={e.name}>
+                            {
+                                getMenuContent({...e})
+                            }
+                            </Menu.Item>
+                        ))
+                    }
                 </Menu>
+                <Spin
+                    spinning={loading}
+                    tip={tip}
+                    wrapperClassName='content-spin full'
+                >
+                    {children}
+                </Spin>
+                
             </div>
         )
     }

@@ -25,7 +25,7 @@ async function start() {
     initSchemas()
     const app=new Koa()
     await useMiddlewares(app)
-    // require('./tasks/api')
+    require('./tasks/api')
     console.log('node start')
     app.listen(2333)
 }

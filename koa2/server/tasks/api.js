@@ -47,7 +47,9 @@ async function fetchMovie(item) {
                 {summary:null},
                 {year:{$exists:false}},
                 {title:''},
-                {summary:''}
+                {summary:''},
+                {posterKey:''},
+                {posterKey:{$exists:false}},
             ]
         })
         console.log(movies.length)
@@ -64,14 +66,12 @@ async function fetchMovie(item) {
                 })
                 moviesItem.summary=movieData.summary||''
                 moviesItem.title=movieData.alt_title||movieData.title||''
-                moviesItem.original_title=movieData.title||''
+                moviesItem.rawTitle=movieData.title||''
                 
 
                 if(movieData.attrs){
                     let MoveiDataAttrs=movieData.attrs
                     moviesItem.movieTypes=MoveiDataAttrs.movie_type||[]
-                    moviesItem.director=MoveiDataAttrs.director
-                    moviesItem.year=MoveiDataAttrs.year[0]||2500
                     let dates=MoveiDataAttrs.pubdate||[];
                     let pubdate=[]
                     dates.forEach(item=>{

@@ -1,5 +1,5 @@
 const url =`https://movie.douban.com/tag/#/?sort=R&range=6,10&tags=%E7%94%B5%E5%BD%B1,%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A`
-const puppeteer =require('puppeteer')
+const puppeteer =require('puppeteer-core')
 ;(async ()=>{
     console.log('strat visti target page')
     const browser=await puppeteer.launch({

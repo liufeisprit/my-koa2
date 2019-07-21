@@ -5,25 +5,36 @@
   overflow: hidden; }
 
 .flex-row {
+  display: -webkit-box;
   display: flex;
-  align-items: center; }
+  -webkit-box-align: center;
+          align-items: center; }
 
 .flex-column {
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
-  justify-content: center; }
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-pack: center;
+          justify-content: center; }
 
 .flex-wrap {
+  display: -webkit-box;
   display: flex;
-  align-items: flex-start;
+  -webkit-box-align: start;
+          align-items: flex-start;
   flex-wrap: wrap; }
 
 .flex-center {
-  align-items: center;
-  justify-content: center; }
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center; }
 
 .flex-spacebetween {
-  justify-content: space-between; }
+  -webkit-box-pack: justify;
+          justify-content: space-between; }
 
 .flex-spacearound {
   justify-content: space-around; }
@@ -32,7 +43,8 @@
   align-self: flex-start; }
 
 .flex-1 {
-  flex: 1; }
+  -webkit-box-flex: 1;
+          flex: 1; }
 
 .font-black {
   color: #021D33; }
@@ -71,16 +83,19 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
     background: #fff;
     padding: 0 15px;
     content: '我只是一条分割线';
     font-size: 13.5px; }
 
 .hover-scale {
+  -webkit-transition: all 0.3s cubic-bezier(0.76, 0.7, 0.23, 0.85);
   transition: all 0.3s cubic-bezier(0.76, 0.7, 0.23, 0.85); }
   .hover-scale:hover {
-    transform: scale(1.19); }
+    -webkit-transform: scale(1.19);
+            transform: scale(1.19); }
 
 .special-table-row {
   min-width: 222px;
@@ -149,7 +164,9 @@ a.media:hover {
 
 .media {
   margin-bottom: 8px;
+  display: -webkit-box;
   display: flex;
+  -webkit-box-align: start;
   align-items: flex-start; }
 
 .media img {
@@ -158,6 +175,7 @@ a.media:hover {
   margin-right: 10px; }
 
 .media-body {
+  -webkit-box-flex: 1;
   flex: 1;
   color: #555; }
 

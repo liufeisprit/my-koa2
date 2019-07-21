@@ -1,6 +1,6 @@
 import React , {Component} from 'react'
 import Layout from '../../layouts/default';
-import request from '../../lib'
+import {request} from '../../lib'
 import Content from './content'
 import {
     Menu
@@ -13,7 +13,7 @@ export default class Home extends Component{
             type:this.props.match.params.type,
             year:this.props.match.params.year,
             movies:[],
-            selectedKey:0
+            selectedKey:'0'
         }
     }
     componentDidMount() {
@@ -23,8 +23,8 @@ export default class Home extends Component{
         request(window.__LOADING__)({
             method:'get',
             url:`/v0/api/movies?type=${this.state.type||''}&year=${this.state.year||''}`
-        }).then(movies=>{
-            this.setState({movies})
+        }).then(res=>{
+            this.setState({movies:res})
         }).catch(()=>{
             this.setState({movies:[]})
         })
@@ -52,11 +52,13 @@ export default class Home extends Component{
                         className='align-self-start'
                     >
                         {
-                            years.map((e,i)=>{
+                            years && years.length?
+                            years.map((e,i)=>(
                                 <Menu.Item key={i}>
                                     <a href={`/year/${e}`}>{e}年上映</a>
                                 </Menu.Item>
-                            })
+                            )):
+                            null
                         }
                     </Menu>
                     <div className='flex-1 scroll-y align-self-start'>

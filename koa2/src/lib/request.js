@@ -25,7 +25,8 @@ const _request=(params={},fn=()=>{})=>{
 export default (param)=>{
     const type=typeof param
     if(type==='function'){
-        return (obj)=>_request(obj,params)
+        param(true)
+        return (obj) => _request(obj,param)
     }
     if(type === 'object'&& type !== null){
         return _request(param)
