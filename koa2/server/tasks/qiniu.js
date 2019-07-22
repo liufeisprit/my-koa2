@@ -33,14 +33,14 @@ const uploadToQiniu = async (url, key) => {
         {videoKey: ''}
       ]
     }).exec()
-    let movies=[{
-        doubanId: 3927734,
-        poster:'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2158676090.jpg',
-        video:'http://vt1.doubanio.com/201907212348/3e2261f675f30eb48b3fd04d142c413c/view/movie/M/301450274.mp4',
-        cover:'https://img3.doubanio.com/img/trailer/medium/2157204740.jpg?' 
-    }]
+    // let movies=[{
+    //     doubanId: 3927734,
+    //     poster:'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2158676090.jpg',
+    //     video:'http://vt1.doubanio.com/201907212348/3e2261f675f30eb48b3fd04d142c413c/view/movie/M/301450274.mp4',
+    //     cover:'https://img3.doubanio.com/img/trailer/medium/2157204740.jpg?' 
+    // }]
   
-  
+    console.log('videoKey',movies.length)
     for (let i = 0; i < movies.length; i++) {
       let movie = movies[i]
   
