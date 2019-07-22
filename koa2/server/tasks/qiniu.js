@@ -6,7 +6,7 @@ const config = require('../config')
 const bucket = config.qiniu.bucket
 var mac = new qiniu.auth.digest.Mac(config.qiniu.AK, config.qiniu.SK);
 var bucketManager = new qiniu.rs.BucketManager(mac, config);
-// const Movie = mongoose.model('Movie')
+const Movie = mongoose.model('Movie')
 
 const uploadToQiniu = async (url, key) => {
   return new Promise((resolve, reject) => {
@@ -26,13 +26,13 @@ const uploadToQiniu = async (url, key) => {
 }
 
 ;(async () => {
-    // let movies = await Movie.find({
-    //   $or: [
-    //     {videoKey: {$exists: false}},
-    //     {videoKey: null},
-    //     {videoKey: ''}
-    //   ]
-    // }).exec()
+    let movies = await Movie.find({
+      $or: [
+        {videoKey: {$exists: false}},
+        {videoKey: null},
+        {videoKey: ''}
+      ]
+    }).exec()
     let movies=[{
         doubanId: 3927734,
         poster:'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2158676090.jpg',
@@ -63,7 +63,7 @@ const uploadToQiniu = async (url, key) => {
             movie.posterKey = posterData.key
           }
           console.log(movie)
-        //   await movie.save()
+          await movie.save()
         } catch (err) {
           console.log(err)
         }

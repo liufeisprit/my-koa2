@@ -48,8 +48,6 @@ async function fetchMovie(item) {
                 {year:{$exists:false}},
                 {title:''},
                 {summary:''},
-                {posterKey:''},
-                {posterKey:{$exists:false}},
             ]
         })
         console.log(movies.length)

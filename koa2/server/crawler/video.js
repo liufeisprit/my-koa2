@@ -1,7 +1,7 @@
 const base =`https://movie.douban.com/subject/`
 const doubanid=`3927734`
 // const video=`https://movie.douban.com/trailer/244061/#content`
-const puppeteer =require('puppeteer')
+const puppeteer =require('puppeteer-core')
 ;(async ()=>{
     console.log('strat visti target page')
     const browser=await puppeteer.launch({

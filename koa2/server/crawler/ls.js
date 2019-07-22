@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const fs=require('fs')
 
 // const ticket=`5FF15E118-892B-DE65-18D3-3D568538B5E0`
