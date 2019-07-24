@@ -9,6 +9,7 @@ var bucketManager = new qiniu.rs.BucketManager(mac, config);
 const Movie = mongoose.model('Movie')
 
 const uploadToQiniu = async (url, key) => {
+  console.log('argument',url,key)
   return new Promise((resolve, reject) => {
     bucketManager.fetch(url, bucket, key, (err, ret, info) => {
       if (err) {
@@ -43,8 +44,9 @@ const uploadToQiniu = async (url, key) => {
     console.log('videoKey',movies.length)
     for (let i = 0; i < movies.length; i++) {
       let movie = movies[i]
-  
+      
       if (movie.video && !movie.videoKey) {
+        console.log('存到七牛上 movie的数据',movie.video,movie.cover,movie.poster)
         try {
           let videoData = await uploadToQiniu(movie.video, nanoid() + '.mp4')
           let coverData = await uploadToQiniu(movie.cover, nanoid() + '.png')

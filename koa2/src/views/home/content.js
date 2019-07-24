@@ -38,7 +38,9 @@ export default class Content extends Component {
                                         {it.rate}分
                                     </Badge>
                                     ]}
-                                    cover={<img src={site+it.posterKey+'?imageMongr2/thumbnail/x1680/crop/1080x1600'}/>}
+                                    // cover={<img src={site+it.posterKey+'?imageMongr2/thumbnail/x1680/crop/1080x1600'}/>
+                                    cover={<img src={it.poster}/>
+                                }
                                 >
                                     <Meta 
                                         style={{height:'202px',overflow:'hidden',}}

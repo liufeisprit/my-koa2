@@ -6,7 +6,8 @@ const Movie = mongoose.model('Movie')
     let movies = await Movie.find({
         $or: [
           {video: {$exists: false}},
-          {video: null}
+          {video: null},
+          {poster:{$exists:false}},
         ]
       }).exec()
     const script=resolve(__dirname,'../crawler/video.js')
@@ -24,16 +25,16 @@ const Movie = mongoose.model('Movie')
         console.log(err)        
     })
     child.on('message',async data=>{
-        // data=JSON.parse(data)
         let {doubanId}=data
         let movie = await Movie.findOne({
-            doubanId: doubanId
+            doubanId
           }).exec()
       
           if (data.video) {
             movie.video = data.video
             movie.cover = data.cover
-      
+            movie.poster = data.poster
+            console.log('修改后的movie',movie)
             await movie.save()
           } else {
             await movie.remove()

@@ -13,6 +13,7 @@ const movieSchema=new Schema({
     rawTitle:String,
     coverKey: String,
     posterKey: String,
+    year:[Number],
     movieTypes:[String],
     pubdate:Mixed,
     director:[String],
