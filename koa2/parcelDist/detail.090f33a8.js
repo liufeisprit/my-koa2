@@ -127,16 +127,144 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _lib = require("../../lib");
+
+var _antd = require("antd");
+
+var _reactRouterDom = require("react-router-dom");
+
+var _moment = _interopRequireDefault(require("moment"));
+
+require("moment/locale/zh-cn");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-let Detail = class Detail extends _react.Component {
+const site = 'http://puzvb5scj.bkt.clouddn.com/';
+const DPlayer = window.DPlayer;
+const TabPane = _antd.Tabs.TabPane;
+
+_moment.default.locale('zh-cn');
+
+function callback(key) {
+  console.log(key);
+}
+
+let MovieDetail = class MovieDetail extends _react.Component {
+  constructor(props) {
+    super(props);
+
+    this._getMovieDetail = () => {
+      (0, _lib.request)({
+        method: 'get',
+        url: `/v0/api/movies/${this.state._id}`
+      }).then(data => {
+        const {
+          movie,
+          relativeMovies
+        } = data;
+        const video = site + movie.videoKey;
+        const pic = site + movie.coverKey;
+        console.log('_getMovieDetail');
+        this.setState({
+          movie,
+          relativeMovies
+        }, () => {
+          this.player = new DPlayer({
+            container: document.getElementById('videoPlayer'),
+            screenshot: true,
+            video: {
+              url: video,
+              pic: pic,
+              thumbnails: pic
+            }
+          });
+        });
+      }).catch(() => {
+        console.log('catch'); //   this.props.history.goBack()
+      });
+    };
+
+    this.state = {
+      loading: false,
+      relativeMovies: [],
+      _id: this.props.match.params.id,
+      movie: null,
+      player: null
+    };
+  }
+
+  componentDidMount() {
+    this._getMovieDetail();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.setState({
+        _id: nextProps.match.params.id
+      }, this._getMovieDetail);
+    }
+  }
+
   render() {
-    return _react.default.createElement("div", null, "\u8BE6\u60C5");
+    const {
+      movie,
+      relativeMovies
+    } = this.state;
+    if (!movie) return null;
+    return _react.default.createElement("div", {
+      className: "flex-row full"
+    }, _react.default.createElement("div", {
+      className: "page-shade"
+    }, _react.default.createElement("div", {
+      className: "video-wrapper"
+    }, _react.default.createElement("div", {
+      id: "videoPlayer",
+      src: site + movie.coverKey,
+      "data-video": site + movie.videoKey
+    })), _react.default.createElement("div", {
+      className: "video-sidebar"
+    }, _react.default.createElement(_reactRouterDom.Link, {
+      className: "homeLink",
+      to: '/'
+    }, "\u56DE\u5230\u9996\u9875"), _react.default.createElement(_antd.Tabs, {
+      defaultActiveKey: "1",
+      onChange: callback
+    }, _react.default.createElement(TabPane, {
+      tab: "\u5173\u4E8E\u672C\u7247",
+      key: "1"
+    }, _react.default.createElement("h1", null, movie.title), _react.default.createElement("dl", null, _react.default.createElement("dt", null, "\u8C46\u74E3\u8BC4\u5206\uFF1A", _react.default.createElement(_antd.Badge, {
+      count: movie.rate,
+      style: {
+        backgroundColor: '#52c41a'
+      }
+    }), " \u5206"), _react.default.createElement("dt", null, "\u7535\u5F71\u5206\u7C7B\uFF1A", movie.tags && movie.tags.join(' ')), _react.default.createElement("dt", null, "\u66F4\u65B0\u65F6\u95F4\uFF1A", (0, _moment.default)(movie.meta.createdAt).fromNow()), _react.default.createElement("dt", null, "\u5F71\u7247\u4ECB\u7ECD\uFF1A"), _react.default.createElement("dd", null, movie.summary))), _react.default.createElement(TabPane, {
+      tab: "\u540C\u7C7B\u7535\u5F71",
+      key: "2"
+    }, relativeMovies.map(item => _react.default.createElement(_reactRouterDom.Link, {
+      key: item._id,
+      className: "media",
+      to: `/detail/${item._id}`
+    }, _react.default.createElement("img", {
+      width: "60",
+      className: "align-self-center mr-3",
+      src: site + item.posterKey,
+      alt: item.rawTitle
+    }), _react.default.createElement("div", {
+      className: "media-body"
+    }, _react.default.createElement("h6", {
+      className: "media-title"
+    }, item.title), _react.default.createElement("ul", {
+      className: "list-unstyled"
+    }, item.pubdate && item.pubdate.map((it, i) => _react.default.createElement("li", {
+      key: i
+    }, (0, _moment.default)(it.date).format('YYYY.MM'), " (", it.country, ")")))))))))));
   }
 
 };
-exports.default = Detail;
-},{"react":"../node_modules/react/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+exports.default = MovieDetail;
+},{"react":"../node_modules/react/index.js","../../lib":"lib/index.js","antd":"../node_modules/antd/es/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","moment":"../node_modules/moment/moment.js","moment/locale/zh-cn":"../node_modules/moment/locale/zh-cn.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -164,7 +292,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61934" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63674" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

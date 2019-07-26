@@ -1,13 +1,13 @@
 import React , {Component} from 'react'
 import {request} from '../../lib'
 import { Tabs, Card, Badge, Radio, Button, message, List, Avatar } from 'antd'
-import { request } from '../../lib'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 const site = 'http://puzvb5scj.bkt.clouddn.com/'
 const DPlayer = window.DPlayer
 const TabPane = Tabs.TabPane
-
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
 function callback(key) {
   console.log(key);
 }
@@ -15,30 +15,36 @@ export default class MovieDetail extends Component{
     constructor(props){
         super(props)
         this.state={
-            years:['2026','2025','2024','2023','2022','2021','2020','2019'],
-            type:this.props.match.params.type,
-            year:this.props.match.params.year,
-            movies:[],
-            selectedKey:'0'
+            loading: false,
+            relativeMovies: [],
+            _id: this.props.match.params.id,
+            movie: null,
+            player:null
         }
     }
-    componentDidMount() {
-        this._getMovieDetail()
+    componentDidMount(){
+      this._getMovieDetail()
     }
-    _getMovieDetail = () => {
-        console.log(window.__LOADING__)
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.match.params.id!==this.props.match.params.id){
+          this.setState({
+            _id:nextProps.match.params.id
+        },this._getMovieDetail)
+      }
+    }
+    _getMovieDetail=()=>{
         request({
           method: 'get',
-          url: `/movies/detail/${this.state._id}`
+          url: `/v0/api/movies/${this.state._id}`
         })
         .then(data => {
-          const movie = data.movie
+          const {movie,relativeMovies} = data
           const video = site + movie.videoKey
           const pic = site + movie.coverKey
-    
+          console.log('_getMovieDetail')
           this.setState({
-            movie: data.movie,
-            relativeMovies: data.relativeMovies,
+            movie,
+            relativeMovies,
           }, () => {
             this.player = new DPlayer({
               container: document.getElementById('videoPlayer'),
@@ -51,9 +57,10 @@ export default class MovieDetail extends Component{
             })
           })
         })
-        // .catch(() => {
+        .catch(() => {
+          console.log('catch')
         //   this.props.history.goBack()
-        // })
+        })
       }
     render(){
         const {movie,relativeMovies}=this.state

@@ -27,7 +27,7 @@ async function start() {
     await useMiddlewares(app)
     // require('./tasks/api')
     // require('./tasks/tralier')
-    require('./tasks/qiniu')
+    // require('./tasks/qiniu')
     console.log('node start')
     app.listen(2333)
 }
