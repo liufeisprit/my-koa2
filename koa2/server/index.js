@@ -8,7 +8,9 @@ import {resolve} from 'path'
 import {connect,initSchemas} from './database/index'
 import * as R from 'ramda'
 const MIDDLEWARES=['router','parcel']
-const DB_URL = 'mongodb://localhost:27017/tralier'
+// const DB_URL = 'mongodb://localhost:27017/tralier'
+const DB_URL = 'mongodb://104.128.89.108:27017/tralier'
+
 const useMiddlewares=(app)=>{
     R.map(
         R.compose(
