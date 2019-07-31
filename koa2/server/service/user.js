@@ -11,3 +11,21 @@ export const checkPassword=async (email,password)=>{
         user
     }
 }
+export const registerUser=async (email,password)=>{
+    let match=true,isExist=false;
+    const user=await User.findOne({email})
+
+    if(user){
+        isExist=true
+    }else{
+        const newUser=new User({
+            userName:'共产主义接班人',
+            email,
+            password
+        })
+        await newUser.save()
+    }
+    return {
+        isExist,match
+    }
+}

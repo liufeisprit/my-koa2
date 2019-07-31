@@ -11,6 +11,11 @@ export default [
         name:'详情页',
         path:'/detail/:id',
         component:AC(()=>import('./views/movie/detail'))
+    },
+    {
+        name:'后台入口页',
+        path:'/admin',
+        component:AC(()=>import('./views/login/index'))
     }
 ]
 
