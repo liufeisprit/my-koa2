@@ -179,11 +179,8 @@ let MovieDetail = (_dec = _antd.Form.create(), _dec(_class = class MovieDetail e
               url: `/admin/${type == 0 ? 'login' : 'register'}`,
               data: _extends({}, values)
             }).then(function (res) {
-              _antd.message.success({
-                content: '注册成功',
-                onClose: function () {
-                  _this.props.history.replace('/admin/list');
-                }
+              _antd.message.success(`${type == 0 ? '登录成功' : '注册成功'}`, function () {
+                _this.props.history.push('/admin/list');
               });
             });
           }
@@ -288,7 +285,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58667" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62360" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

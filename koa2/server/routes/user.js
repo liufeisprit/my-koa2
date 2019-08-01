@@ -10,6 +10,7 @@ export class userController{
     async login (ctx,next){
         const {email,password}=ctx.request.body;
         const matchData=await checkPassword(email,password)
+        console.log(matchData)
         if(!matchData.user){
             return (ctx.body={
                 success:false,

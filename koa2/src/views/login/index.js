@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { request } from "../../lib";
-import { Form, Icon, Input, Button ,message} from "antd";
+import { Form, Icon, Input, Button , message} from "antd";
 
 const FormItem = Form.Item
 import "./index.sass";
@@ -37,9 +37,9 @@ export default class MovieDetail extends Component {
 			  }
 			})
 			  .then(res => {
-				message.success({content:'注册成功',onClose:()=>{
-					this.props.history.replace('/admin/list')
-				}})
+				message.success(`${type==0?'登录成功':'注册成功'}`,()=>{
+					this.props.history.push('/admin/list')
+				})
 			  })
 		  }
 		})

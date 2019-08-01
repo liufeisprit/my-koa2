@@ -7,9 +7,9 @@ const MAX_LOGIN_ATTEMPTS=5
 const LOCK_TIME=2*60*60*1000
 const userSchema=new Schema({
     userName:{
-        unique:true,//是否是唯一的
         type:String,
         required:true,
+        unique:false
     },
     email:{
         unique:true,
@@ -42,21 +42,25 @@ userSchema.virtual('isLocked').get(function(){
 })
 //中间件 在保存前 执行的方法
 userSchema.pre('save',function(next){
-    if(!this.isModified('password')){return next()}
-    bcrypt.getSalt(SALT_WORK_FACTORY,(err,salt)=>{
-        if(err) return next(err)
-        bcrypt.hash(this.password,salt,(err,hash)=>{
-            if(err) return next(err)
-            this.password=hash;
-            next()
-        })
-    })
     if(this.isNew){
         this.meta.createdAt=this.meta.updateAt=Date.now()
     }else{
         this.meta.updateAt=Date.now()
     }
     next()
+})
+userSchema.pre('save',function(next){
+    let user=this
+    if(!this.isModified('password')){return next()}
+    bcrypt.genSalt(SALT_WORK_FACTORY,(err,salt)=>{
+        if(err) return next(err)
+        bcrypt.hash(user.password,salt,(err,hash)=>{
+            if(err) return next(err)
+            user.password=hash;
+            next()
+        })
+    })
+    
 })
 userSchema.methods={
     comparePassword:function(_password,password){
