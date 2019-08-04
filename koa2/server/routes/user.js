@@ -7,6 +7,7 @@ const {get,post,put,del,controller} =require('../lib/decorator')
 @controller('/admin')
 export class userController{
     @post('/login')
+    
     async login (ctx,next){
         const {email,password}=ctx.request.body;
         const matchData=await checkPassword(email,password)

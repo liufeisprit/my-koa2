@@ -16,6 +16,11 @@ export default [
         name:'后台入口页',
         path:'/admin',
         component:AC(()=>import('./views/login/index'))
+    },
+    {
+        name:'后台管理页',
+        path:'/admin/list',
+        component:AC(()=>import('./views/admin/index'))
     }
 ]
 

@@ -11,12 +11,18 @@ export class Route{
         this.router=new Router()
     }
     init(){
+        //执行所有路由所需的装饰器 这行代码执行完毕 routerMap上已经绑定了所有装饰器方法
         glob.sync(resolve(this.apiPath,'./**/*.js')).forEach(require);
+        // console.log(routerMap)
         for(let [conf,controller] of routerMap){
+            console.log('conf',conf)
             const controllers=isArray(controller)
+            console.log('controller',controllers)
             var prefixPath=conf.target[symbolPrefix]
             if(prefixPath)prefixPath=normalizePath(prefixPath)
             const routerPath=prefixPath+conf.path
+            //server端请求不同路由 执行不同方法
+            //等同于 例如this.router.get('/admin',controllers) controllers可以是多个中间价 依次传递
             this.router[conf.method](routerPath,...controllers)
         }
         this.app
@@ -25,6 +31,7 @@ export class Route{
     }
 }
 const normalizePath=path=>path.startsWith('/')?path:`/${path}`
+//装饰器 target类的原型 key当前属性的名字
 const router=conf=>(target,key,desciptor)=>{
     conf.path=normalizePath(conf.path)
     routerMap.set({
