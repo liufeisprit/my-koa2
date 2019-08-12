@@ -6,7 +6,8 @@ class Boy {
         console.log('i can run')
     }
 }
-//装饰类的熟悉 target 被装饰的属性所属类的原型 key 被装饰的属性 descriptor 装饰的对象的描述对象 writable enumerable configurable等
+//装饰类的属性 target 被装饰的属性所属类的原型 
+//key 被装饰的属性名 descriptor 装饰的对象的描述对象 writable enumerable configurable等
 function speak(language) {
     return function (target,key,descriptor) { 
         console.log(key)

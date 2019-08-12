@@ -3,11 +3,21 @@
  */
 const Router=require('koa-router')
 const {checkPassword,registerUser}=require('../service/user')
-const {get,post,put,del,controller} =require('../lib/decorator')
+const {get,post,put,del,controller,auth,adminAuth} =require('../lib/decorator')
 @controller('/admin')
-export class userController{
+export class adminController{
+    @get('/movie/list')
+    @auth
+    @adminAuth
+    async getMovieList(ctx,next){
+        const {type,year}=ctx.query;
+        const movies=await getAllMovies(type,year);
+        ctx.body={
+            data:movies,
+            success: true
+        }
+    }
     @post('/login')
-    
     async login (ctx,next){
         const {email,password}=ctx.request.body;
         const matchData=await checkPassword(email,password)

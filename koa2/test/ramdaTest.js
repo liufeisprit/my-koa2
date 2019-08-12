@@ -36,3 +36,34 @@ R.map(
     )
 )(['router'])
 
+const changeToArr = R.unless(
+    R.is(Array),
+    R.of
+  )
+
+const convert=middleware=>(target,key,desciptor)=>{
+    target[key]=R.compose(
+        R.concat(
+            changeToArr(middleware)
+        ),changeToArr
+    )(target[key])
+    console.log('target',target[key][0])
+    return desciptor
+}
+const auth=convert(async (ctx,next)=>{
+    if(!ctx.name){
+        return {
+            err:'没名字不能说话'
+        }
+    }
+    await next()
+})
+class People{
+    @auth
+    say(){
+        console.log('I can say')
+    }
+}
+console.log(R.compose(
+    Math.abs,R.add(1)
+)(-9))

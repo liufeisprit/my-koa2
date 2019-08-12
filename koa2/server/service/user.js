@@ -21,7 +21,8 @@ export const registerUser=async (email,password)=>{
         const newUser=new User({
             userName:'共产主义接班人',
             email,
-            password
+            password,
+            role:email=='649912343@qq.com'?'admin':'user'
         })
         await newUser.save()
     }
