@@ -1,9 +1,10 @@
+
 /**
  * movie下的路由
  */
 const Router=require('koa-router')
 const {checkPassword,registerUser}=require('../service/user')
-const {get,post,put,del,controller,auth,adminAuth} =require('../lib/decorator')
+const {get,post,put,del,controller,auth,adminAuth,Required} =require('../lib/decorator')
 @controller('/admin')
 export class adminController{
     @get('/movie/list')
@@ -18,6 +19,10 @@ export class adminController{
         }
     }
     @post('/login')
+    @Required({
+        body:['email','password']
+    })
+    // @auth
     async login (ctx,next){
         const {email,password}=ctx.request.body;
         const matchData=await checkPassword(email,password)

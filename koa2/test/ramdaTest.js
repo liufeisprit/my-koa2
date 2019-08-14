@@ -67,3 +67,18 @@ class People{
 console.log(R.compose(
     Math.abs,R.add(1)
 )(-9))
+
+console.log(
+    R.forEachObjIndexed((val,key)=>{
+        console.log(val)
+    })(
+        {
+            body:['email','password'],
+        }
+    )
+)
+const testObj={email:123,'password' :123}
+console.log(
+    [].concat(R.filter(name=>!R.has(name,testObj))([ 'email', 'password' ,'a','sa']))
+)
+// console.log(R.has('name')({name:'',ctx:''}))

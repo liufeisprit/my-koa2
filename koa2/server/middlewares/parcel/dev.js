@@ -10,8 +10,7 @@ const bundler=new Bundler(r('../../../src/index.html'),{
     cache: false
 })
 export const dev=async app=>{
-    // await bundler.bundle()
-    console.log('打包完毕')
+    await bundler.bundle()
     app.use(serve(r('../../../parcelDist')))
     app.use(views(r('../../../parcelDist')),{
         extension:'html'

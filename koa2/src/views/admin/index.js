@@ -112,7 +112,7 @@ export default class Home extends Component {
   _getAllMovies = () => {
     request(this._toggleLoading)({
       method: 'get',
-      url: 'admin/movie/list'
+      url: '/admin/movie/list'
     }).then(res => {
       this.setState({
         dataSource: res

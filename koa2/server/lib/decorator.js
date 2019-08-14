@@ -87,7 +87,7 @@ export const Required=paramsObj=>convert(async (ctx,next)=>{
         (val,key)=>{
             errors=errors.concat(
                 R.filter(
-                    name=>!R.has(name,ctx,request[key])
+                    name=>!R.has(name,ctx.request[key])
                 )(val)
             )
         }
@@ -101,8 +101,10 @@ export const Required=paramsObj=>convert(async (ctx,next)=>{
             }
         )
     }
+    await next()
 })
 export const auth = convert (async (ctx,next)=>{
+    console.log('session',ctx.session.user)
     if(!ctx.session.user){
         return (
             ctx.body={
