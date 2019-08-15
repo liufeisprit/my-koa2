@@ -20,10 +20,12 @@ export const registerUser=async (email,password)=>{
     }else{
         const newUser=new User({
             userName:'共产主义接班人',
+            role:email=='admin'?'admin':'user',
             email,
             password,
-            role:email=='649912343@qq.com'?'admin':'user'
+            
         })
+        console.log('register',newUser)
         await newUser.save()
     }
     return {

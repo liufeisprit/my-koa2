@@ -52,8 +52,8 @@ export const put= path=>router({
     method:'put',
     path:path
 })
-export const del= path=>router({
-    method:'del',
+export const del = path=>router({
+    method:'delete',
     path:path
 })
 export const use= path=>router({
@@ -110,7 +110,7 @@ export const auth = convert (async (ctx,next)=>{
             ctx.body={
                 success:false,
                 code:401,
-                err:'登录信息失效 请重新登录'
+                errMsg:'登录信息失效 请重新登录'
             }
         )
     }
@@ -123,7 +123,7 @@ export const adminAuth = convert(async (ctx,next)=>{
             ctx.body={
                 success:false,
                 code:403,
-                err:'你没有权限 来错地方了'
+                errMsg:'你没有权限 来错地方了'
             }
         )
     }

@@ -90,7 +90,7 @@ export default class Home extends Component {
       {
         title: '操作',
         key: 'action',
-        render: (text, record) => <Button type="danger" onClick={this._delete}>删除</Button>
+        render: (text, record) => <Button type="danger" onClick={()=>this._deleteMovie(4444)}>删除</Button>
       }]
     }
   }
@@ -113,6 +113,20 @@ export default class Home extends Component {
     request(this._toggleLoading)({
       method: 'get',
       url: '/admin/movie/list'
+    }).then(res => {
+      this.setState({
+        dataSource: res
+      })
+    }).catch(() => {
+      this.setState({
+        dataSource: []
+      })
+    })
+  }
+  _deleteMovie = (id) => {
+    request(this._toggleLoading)({
+      method: 'delete',
+      url: `/admin/movie?id=${id}`
     }).then(res => {
       this.setState({
         dataSource: res

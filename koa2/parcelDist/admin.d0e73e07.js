@@ -176,6 +176,21 @@ let Home = class Home extends _react.Component {
       });
     };
 
+    this._deleteMovie = id => {
+      (0, _lib.request)(this._toggleLoading)({
+        method: 'delete',
+        url: `/admin/movie?id=${id}`
+      }).then(res => {
+        this.setState({
+          dataSource: res
+        });
+      }).catch(() => {
+        this.setState({
+          dataSource: []
+        });
+      });
+    };
+
     this.state = {
       collapsed: false,
       loading: false,
@@ -252,7 +267,7 @@ let Home = class Home extends _react.Component {
         key: 'action',
         render: (text, record) => _react.default.createElement(_antd.Button, {
           type: "danger",
-          onClick: this._delete
+          onClick: () => this._deleteMovie(4444)
         }, "\u5220\u9664")
       }]
     };
@@ -312,7 +327,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60353" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53775" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
