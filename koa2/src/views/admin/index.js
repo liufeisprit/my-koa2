@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { request } from '../../lib'
 import Layout from '../../layouts/default'
+import {message} from 'antd'
 import {
   Table,
   Button
@@ -90,7 +91,7 @@ export default class Home extends Component {
       {
         title: '操作',
         key: 'action',
-        render: (text, record) => <Button type="danger" onClick={()=>this._deleteMovie(4444)}>删除</Button>
+        render: (text, record) => <Button type="danger" onClick={()=>this._deleteMovie(record._id)}>删除</Button>
       }]
     }
   }
@@ -117,10 +118,11 @@ export default class Home extends Component {
       this.setState({
         dataSource: res
       })
-    }).catch(() => {
-      this.setState({
-        dataSource: []
-      })
+    }).catch(err => {
+      console.log(err)
+      // this.setState({
+      //   dataSource: []
+      // })
     })
   }
   _deleteMovie = (id) => {
@@ -129,12 +131,11 @@ export default class Home extends Component {
       url: `/admin/movie?id=${id}`
     }).then(res => {
       this.setState({
-        dataSource: res
+        dataSource: this.state.dataSource.filter(item=>item._id!=id)
+      },()=>{
+        message.success('删除成功')
       })
     }).catch(() => {
-      this.setState({
-        dataSource: []
-      })
     })
   }
 

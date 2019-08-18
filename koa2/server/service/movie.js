@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const {ObjectId}=mongoose.Types
 const Movie=mongoose.model('Movie')
 export const getAllMovies=async (type,year)=>{
     let query={}
@@ -14,11 +15,16 @@ export const getAllMovies=async (type,year)=>{
     return movies
 }
 export const findAndRemove=async id=>{
-    const mo=await Movie.findOne({_id:'12314'})
-    console.log(mo)
-    return
-    const removeMovie=await Movie.findOneAndDelete({id:id})
-    return removeMovie 
+    const valid=ObjectId.isValid(id)
+    // if(!valid){
+    //     return false
+    // }
+    try {
+        const removeMovie=await Movie.findOneAndDelete({_id:id})
+        return removeMovie
+    } catch (error) {
+        return false
+    }
 }
 export const getMovieDetail=async id=>{
     const movie=await Movie.findOne({_id:id})

@@ -293,7 +293,11 @@ var _lib = require("../../lib");
 
 var _content = _interopRequireDefault(require("./content"));
 
+var _reactRouterDom = require("react-router-dom");
+
 var _antd = require("antd");
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -303,12 +307,28 @@ let Home = class Home extends _react.Component {
   constructor(props) {
     super(props);
     this.state = {
-      years: ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019'],
-      type: this.props.match.params.type,
-      year: this.props.match.params.year,
+      years: ['全部', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012'],
+      type: new URLSearchParams(this.props.location.search.substring(1)).get('type'),
+      year: new URLSearchParams(this.props.location.search.substring(1)).get('year'),
       movies: [],
       selectedKey: '0'
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      search
+    } = nextProps.location;
+    console.log(search);
+
+    if (search != this.props.location.search) {
+      const type = new URLSearchParams(search.substring(1)).get('type');
+      const year = new URLSearchParams(search.substring(1)).get('year');
+      this.setState({
+        type,
+        year
+      }, this._getAllMovies);
+    }
   }
 
   componentDidMount() {
@@ -346,10 +366,30 @@ let Home = class Home extends _react.Component {
 
   _selectItem({
     key
+  }) {// this.setState({
+    //     selectedKey:key
+    // })
+    // console.log(this)
+  }
+
+  _selectItemTypeClick({
+    type,
+    year
   }) {
-    this.setState({
-      selectedKey: key
-    });
+    console.log(type, year);
+    console.log(this);
+    const {
+      search
+    } = this.props.location;
+    type = type || '';
+    year = year || ''; // if(type&&this.state.year){
+    //     year=this.state.year
+    // }
+    // if(year&&this.state.type){
+    //     type=this.state.type
+    // }
+
+    this.props.history.push(`/?type=${type || this.state.type}&year=${year || this.state.year}`);
   }
 
   render() {
@@ -357,7 +397,9 @@ let Home = class Home extends _react.Component {
       years,
       selectedKey
     } = this.state;
-    return _react.default.createElement(_default.default, this.props, _react.default.createElement("div", {
+    return _react.default.createElement(_default.default, _extends({}, this.props, {
+      _selectItemTypeClick: this._selectItemTypeClick.bind(this)
+    }), _react.default.createElement("div", {
       className: "flex-row full"
     }, _react.default.createElement(_antd.Menu, {
       defaultSelectedKeys: [selectedKey],
@@ -372,7 +414,10 @@ let Home = class Home extends _react.Component {
     }, years && years.length ? years.map((e, i) => _react.default.createElement(_antd.Menu.Item, {
       key: i
     }, _react.default.createElement("a", {
-      href: `/year/${e}`
+      href: "javascript:;",
+      onClick: () => this._selectItemTypeClick({
+        year: e
+      })
     }, e, "\u5E74\u4E0A\u6620"))) : null), _react.default.createElement("div", {
       className: "flex-1 scroll-y align-self-start"
     }, this._renderContent())));
@@ -380,7 +425,7 @@ let Home = class Home extends _react.Component {
 
 };
 exports.default = Home;
-},{"react":"../node_modules/react/index.js","../../layouts/default":"layouts/default.js","../../lib":"lib/index.js","./content":"views/home/content.js","antd":"../node_modules/antd/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../layouts/default":"layouts/default.js","../../lib":"lib/index.js","./content":"views/home/content.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","antd":"../node_modules/antd/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -408,7 +453,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53775" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62051" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

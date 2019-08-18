@@ -169,10 +169,10 @@ let Home = class Home extends _react.Component {
         this.setState({
           dataSource: res
         });
-      }).catch(() => {
-        this.setState({
-          dataSource: []
-        });
+      }).catch(err => {
+        console.log(err); // this.setState({
+        //   dataSource: []
+        // })
       });
     };
 
@@ -182,13 +182,11 @@ let Home = class Home extends _react.Component {
         url: `/admin/movie?id=${id}`
       }).then(res => {
         this.setState({
-          dataSource: res
+          dataSource: this.state.dataSource.filter(item => item._id != id)
+        }, () => {
+          _antd.message.success('删除成功');
         });
-      }).catch(() => {
-        this.setState({
-          dataSource: []
-        });
-      });
+      }).catch(() => {});
     };
 
     this.state = {
@@ -267,7 +265,7 @@ let Home = class Home extends _react.Component {
         key: 'action',
         render: (text, record) => _react.default.createElement(_antd.Button, {
           type: "danger",
-          onClick: () => this._deleteMovie(4444)
+          onClick: () => this._deleteMovie(record._id)
         }, "\u5220\u9664")
       }]
     };
@@ -327,7 +325,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53775" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62051" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

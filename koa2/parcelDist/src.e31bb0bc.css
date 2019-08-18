@@ -23989,11 +23989,6 @@ div.ant-typography-edit-content {
 
 
 @charset "UTF-8";
-#app {
-  width: 100%;
-  height: 100%;
-  overflow: hidden; }
-
 .flex-row {
   display: flex;
   align-items: center; }

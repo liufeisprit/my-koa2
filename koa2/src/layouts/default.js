@@ -1,12 +1,7 @@
 import React,{Component} from 'react'
 import {Menu,Spin} from 'antd'
-
+import {Link} from 'react-router-dom'
 import navRoutes from './nav'
-const getMenuContent=({path,name})=>(
-    <a href={path?path:'/'} style={{color:'#fff2e8'}}>
-        {name}
-    </a>
-)
 export default class Layout extends Component{
     constructor(props){
         super(props)
@@ -15,6 +10,11 @@ export default class Layout extends Component{
             tip:'再等一下下嘛'
         }
     }
+    getMenuContent=({path,name})=>(
+        <a href='javascript:;' onClick={()=>this.props._selectItemTypeClick({type:name})} style={{color:'#fff2e8'}}>
+            {name}
+        </a>
+    )
     componentDidMount() {
         window.__LOADING__= this.toggleLoading
     }
@@ -60,7 +60,7 @@ export default class Layout extends Component{
                         navRoutes.map((e,i)=>(
                             <Menu.Item key={e.name}>
                             {
-                                getMenuContent({...e})
+                                this.getMenuContent({...e})
                             }
                             </Menu.Item>
                         ))
